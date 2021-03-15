@@ -1,0 +1,236 @@
+
+In [1]:
+#Importing the libraries
+import pandas as pd
+import plotly.graph_objects as go
+import plotly.express as px
+
+In [2]: 
+ls
+In [3]:
+df = pd.read_csv("Titanic Data.csv")
+df.head()
+Out[3]:
+PassengerId	Survived	Pclass	Name	Sex	Age	SibSp	Parch	Ticket	Fare	Cabin	Embarked
+0	1	0	3	Braund, Mr. Owen Harris	male	22.0	1	0	A/5 21171	7.2500	NaN	S
+1	2	1	1	Cumings, Mrs. John Bradley (Florence Briggs Th...	female	38.0	1	0	PC 17599	71.2833	C85	C
+2	3	1	3	Heikkinen, Miss. Laina	female	26.0	0	0	STON/O2. 3101282	7.9250	NaN	S
+3	4	1	1	Futrelle, Mrs. Jacques Heath (Lily May Peel)	female	35.0	1	0	113803	53.1000	C123	S
+4	5	0	3	Allen, Mr. William Henry	male	35.0	0	0	373450	8.0500	NaN	S
+In [4]:
+df.info()
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 891 entries, 0 to 890
+Data columns (total 12 columns):
+ #   Column       Non-Null Count  Dtype  
+---  ------       --------------  -----  
+ 0   PassengerId  891 non-null    int64  
+ 1   Survived     891 non-null    int64  
+ 2   Pclass       891 non-null    int64  
+ 3   Name         891 non-null    object 
+ 4   Sex          891 non-null    object 
+ 5   Age          714 non-null    float64
+ 6   SibSp        891 non-null    int64  
+ 7   Parch        891 non-null    int64  
+ 8   Ticket       891 non-null    object 
+ 9   Fare         891 non-null    float64
+ 10  Cabin        204 non-null    object 
+ 11  Embarked     889 non-null    object 
+dtypes: float64(2), int64(5), object(5)
+memory usage: 83.7+ KB
+In [5]:
+df.columns
+Out[5]:
+Index(['PassengerId', 'Survived', 'Pclass', 'Name', 'Sex', 'Age', 'SibSp',
+       'Parch', 'Ticket', 'Fare', 'Cabin', 'Embarked'],
+      dtype='object')
+Dropping NaN Values
+In [6]:
+df.isna().sum()
+Out[6]:
+PassengerId      0
+Survived         0
+Pclass           0
+Name             0
+Sex              0
+Age            177
+SibSp            0
+Parch            0
+Ticket           0
+Fare             0
+Cabin          687
+Embarked         2
+dtype: int64
+In [7]:
+df = df.drop(['Cabin'], axis = 1)
+In [8]:
+df
+Out[8]:
+PassengerId	Survived	Pclass	Name	Sex	Age	SibSp	Parch	Ticket	Fare	Embarked
+0	1	0	3	Braund, Mr. Owen Harris	male	22.0	1	0	A/5 21171	7.2500	S
+1	2	1	1	Cumings, Mrs. John Bradley (Florence Briggs Th...	female	38.0	1	0	PC 17599	71.2833	C
+2	3	1	3	Heikkinen, Miss. Laina	female	26.0	0	0	STON/O2. 3101282	7.9250	S
+3	4	1	1	Futrelle, Mrs. Jacques Heath (Lily May Peel)	female	35.0	1	0	113803	53.1000	S
+4	5	0	3	Allen, Mr. William Henry	male	35.0	0	0	373450	8.0500	S
+...	...	...	...	...	...	...	...	...	...	...	...
+886	887	0	2	Montvila, Rev. Juozas	male	27.0	0	0	211536	13.0000	S
+887	888	1	1	Graham, Miss. Margaret Edith	female	19.0	0	0	112053	30.0000	S
+888	889	0	3	Johnston, Miss. Catherine Helen "Carrie"	female	NaN	1	2	W./C. 6607	23.4500	S
+889	890	1	1	Behr, Mr. Karl Howell	male	26.0	0	0	111369	30.0000	C
+890	891	0	3	Dooley, Mr. Patrick	male	32.0	0	0	370376	7.7500	Q
+891 rows × 11 columns
+
+In [50]:
+df= df.dropna()
+In [51]:
+df.info()
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 712 entries, 0 to 890
+Data columns (total 11 columns):
+ #   Column       Non-Null Count  Dtype  
+---  ------       --------------  -----  
+ 0   PassengerId  712 non-null    int64  
+ 1   Survived     712 non-null    int64  
+ 2   Pclass       712 non-null    int64  
+ 3   Name         712 non-null    object 
+ 4   Sex          712 non-null    object 
+ 5   Age          712 non-null    float64
+ 6   SibSp        712 non-null    int64  
+ 7   Parch        712 non-null    int64  
+ 8   Ticket       712 non-null    object 
+ 9   Fare         712 non-null    float64
+ 10  Embarked     712 non-null    object 
+dtypes: float64(2), int64(5), object(4)
+memory usage: 66.8+ KB
+In [11]:
+df.head(10)
+Out[11]:
+PassengerId	Survived	Pclass	Name	Sex	Age	SibSp	Parch	Ticket	Fare	Embarked
+0	1	0	3	Braund, Mr. Owen Harris	male	22.0	1	0	A/5 21171	7.2500	S
+1	2	1	1	Cumings, Mrs. John Bradley (Florence Briggs Th...	female	38.0	1	0	PC 17599	71.2833	C
+2	3	1	3	Heikkinen, Miss. Laina	female	26.0	0	0	STON/O2. 3101282	7.9250	S
+3	4	1	1	Futrelle, Mrs. Jacques Heath (Lily May Peel)	female	35.0	1	0	113803	53.1000	S
+4	5	0	3	Allen, Mr. William Henry	male	35.0	0	0	373450	8.0500	S
+6	7	0	1	McCarthy, Mr. Timothy J	male	54.0	0	0	17463	51.8625	S
+7	8	0	3	Palsson, Master. Gosta Leonard	male	2.0	3	1	349909	21.0750	S
+8	9	1	3	Johnson, Mrs. Oscar W (Elisabeth Vilhelmina Berg)	female	27.0	0	2	347742	11.1333	S
+9	10	1	2	Nasser, Mrs. Nicholas (Adele Achem)	female	14.0	1	0	237736	30.0708	C
+10	11	1	3	Sandstrom, Miss. Marguerite Rut	female	4.0	1	1	PP 9549	16.7000	S
+1. Show the age distribution in the data using a histogram.
+In [12]:
+trace = go.Histogram(x=df['Age'],
+                     opacity=0.80, 
+                     marker=dict(color='rgba(171, 50, 96, 0.6)')
+                    )
+data = [trace]
+layout = go.Layout(title='Age Distribution of Titanic Passengers',
+                   xaxis=dict(title='Age of Passengers'), 
+                   yaxis=dict(title='Count of Passengers'),
+                  )
+fig = go.Figure(data=data, layout=layout)
+fig.show()
+2. Show the age distribution based on gender using a histogram.
+In [14]:
+df['Sex'].value_counts()
+Out[14]:
+male      453
+female    259
+Name: Sex, dtype: int64
+In [15]:
+Male = df.Age[df['Sex']=="male"]
+Female = df.Age[df['Sex']=="female"]
+In [16]:
+trace1 = go.Histogram(x=Male,
+                     opacity=0.80,
+                     name="Male",
+                     marker=dict(color='rgba(171, 50, 96, 0.6)')
+                    )
+trace2 = go.Histogram(x=Female,
+                     opacity=0.80,
+                     name="Female",
+                     marker=dict(color='rgba(12, 50, 196, 0.6)')
+                    )
+data = [trace1, trace2]
+layout = go.Layout(barmode='overlay',
+                   title='Age Distribution of Titanic Passengers Based on Gender',
+                   xaxis=dict(title='Age of Passengers'), 
+                   yaxis=dict(title='Count of Passengers'),
+                  )
+fig = go.Figure(data=data, layout=layout)
+fig.show()
+3. Using the function df.corr() to identify the correlation within the data, represent its results using a form of a matrix plot.
+In [17]:
+df_matrix=df.corr()
+df_matrix
+Out[17]:
+PassengerId	Survived	Pclass	Age	SibSp	Parch	Fare
+PassengerId	1.000000	0.029526	-0.035609	0.033681	-0.082704	-0.011672	0.009655
+Survived	0.029526	1.000000	-0.356462	-0.082446	-0.015523	0.095265	0.266100
+Pclass	-0.035609	-0.356462	1.000000	-0.365902	0.065187	0.023666	-0.552893
+Age	0.033681	-0.082446	-0.365902	1.000000	-0.307351	-0.187896	0.093143
+SibSp	-0.082704	-0.015523	0.065187	-0.307351	1.000000	0.383338	0.139860
+Parch	-0.011672	0.095265	0.023666	-0.187896	0.383338	1.000000	0.206624
+Fare	0.009655	0.266100	-0.552893	0.093143	0.139860	0.206624	1.000000
+In [86]:
+fig = px.scatter_matrix(df_matrix,
+    dimensions=["Survived", "Pclass", "Age","SibSp", "Parch","Fare"],
+    color="Survived")
+fig.show()
+4. Pivot the data setting the column Pclass as the columns and Fare as the values. From the resulting structure, use a boxplot to show the distribution of the values in its 3 columns.
+In [59]:
+df_pivot = df.pivot(columns='Pclass', values='Fare')
+In [62]:
+df_pivot
+Out[62]:
+Pclass	1	2	3
+0	NaN	NaN	7.250
+1	71.2833	NaN	NaN
+2	NaN	NaN	7.925
+3	53.1000	NaN	NaN
+4	NaN	NaN	8.050
+...	...	...	...
+885	NaN	NaN	29.125
+886	NaN	13.0	NaN
+887	30.0000	NaN	NaN
+889	30.0000	NaN	NaN
+890	NaN	NaN	7.750
+712 rows × 3 columns
+
+In [84]:
+fig = px.box(df_pivot, title="Box plot of Passenger Class Against Fare", labels={
+                     "Pclass": "Passenger Class",
+                      "value": "Fare Paid"},)
+fig.show()
+5. Graph the value counts of the number of passengers who survived and did not survive based on gender using a stacked bar graph.
+In [93]:
+df['Survived'].replace(1,"Yes", inplace=True)
+df['Survived'].replace(0,"No", inplace=True)
+In [97]:
+fig = px.bar(df, x="Sex", color="Survived",
+             barmode = 'stack',
+             title="Bar Graph of Passengers Based on Gender",
+             labels={
+                     "Sex": "Gender of Passengers",
+                     "count": "Count of Passengers",
+                 },)
+ 
+fig.show()
+6. Using a scatter plot, plot the ages to the fare paid by the each passenger based on their gender.
+In [82]:
+fig = px.scatter(df, x="Age", y="Fare", 
+                 facet_col="Sex",
+                 labels={
+                     "Age": "Age of Passengers",
+                     "Fare": "Fare Paid",
+                 },
+                 size_max=60,
+                 title="Scatter Plot of Age of Passengers against Fare Paid")
+fig.show()
+7. Plot a bubble plot of the ages to the fare paid by each passenger categorizing whether they survived or not. The size of each bubble should be determined by the passenger class and the name of each individual as the hover name.
+In [71]:
+fig = px.scatter(df, x="Age", y="Fare",
+	         size="Pclass",  facet_col="Survived",
+                 hover_name="Name", size_max=30, title="Age Against Fare of Passengers Based on Survival")
+fig.show()
+In [ ]:
+
